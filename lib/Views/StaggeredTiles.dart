@@ -25,7 +25,7 @@ class _MyStaggeredTileState extends State<MyStaggeredTile> {
 
     _content = widget.note.content;
     _fontSize = _determineFontSizeForContent();
-    tileColor = widget.note.note_color;
+    tileColor = widget.note.noteColor;
     title = widget.note.title;
 
     return GestureDetector(

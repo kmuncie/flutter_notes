@@ -7,7 +7,7 @@ enum moreOptions { delete, share, copy }
 
 class MoreOptionsSheet extends StatefulWidget {
   final Color color;
-  final DateTime date_last_edited;
+  final DateTime dateLastEdited;
   final void Function(Color) callBackColorTapped;
 
   final void Function(moreOptions) callBackOptionTapped;
@@ -15,7 +15,7 @@ class MoreOptionsSheet extends StatefulWidget {
   const MoreOptionsSheet(
       {Key key,
       this.color,
-      this.date_last_edited,
+      this.dateLastEdited,
       this.callBackColorTapped,
       this.callBackOptionTapped})
       : super(key: key);
@@ -25,17 +25,17 @@ class MoreOptionsSheet extends StatefulWidget {
 }
 
 class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
-  var note_color;
+  var noteColor;
 
   @override
   void initState() {
-    note_color = widget.color;
+    noteColor = widget.color;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: this.note_color,
+      color: this.noteColor,
       child: new Wrap(
         children: <Widget>[
           new ListTile(
@@ -67,7 +67,7 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
               child: ColorSlider(
                 callBackColorTapped: _changeColor,
                 // call callBack from notePage here
-                noteColor: note_color, // take color from local variable
+                noteColor: noteColor, // take color from local variable
               ),
             ),
           ),
@@ -78,7 +78,7 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
                 height: 44,
                 child: Center(
                     child: Text(CentralStation.stringForDatetime(
-                        widget.date_last_edited))),
+                        widget.dateLastEdited))),
               )
             ],
             mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +91,7 @@ class _MoreOptionsSheetState extends State<MoreOptionsSheet> {
 
   void _changeColor(Color color) {
     setState(() {
-      this.note_color = color;
+      this.noteColor = color;
       widget.callBackColorTapped(color);
     });
   }

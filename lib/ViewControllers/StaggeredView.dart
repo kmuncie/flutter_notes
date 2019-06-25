@@ -69,13 +69,13 @@ class _StaggeredGridPageState extends State<StaggeredGridPage> {
 EdgeInsets _paddingForView(BuildContext context){
   double width = MediaQuery.of(context).size.width;
   double padding ;
-  double top_bottom = 8;
+  double topBottom = 8;
   if (width > 500) {
     padding = ( width ) * 0.05 ; // 5% padding of width on both side
   } else {
     padding = 8;
   }
-  return EdgeInsets.only(left: padding, right: padding, top: top_bottom, bottom: top_bottom);
+  return EdgeInsets.only(left: padding, right: padding, top: topBottom, bottom: topBottom);
 }
 
 
@@ -84,9 +84,9 @@ EdgeInsets _paddingForView(BuildContext context){
       _allNotesInQueryResult[i]["id"],
       _allNotesInQueryResult[i]["title"] == null ? "" : utf8.decode(_allNotesInQueryResult[i]["title"]),
       _allNotesInQueryResult[i]["content"] == null ? "" : utf8.decode(_allNotesInQueryResult[i]["content"]),
-     DateTime.fromMillisecondsSinceEpoch(_allNotesInQueryResult[i]["date_created"] * 1000),
-     DateTime.fromMillisecondsSinceEpoch(_allNotesInQueryResult[i]["date_last_edited"] * 1000),
-      Color(_allNotesInQueryResult[i]["note_color"] ))
+     DateTime.fromMillisecondsSinceEpoch(_allNotesInQueryResult[i]["dateCreated"] * 1000),
+     DateTime.fromMillisecondsSinceEpoch(_allNotesInQueryResult[i]["dateLastEdited"] * 1000),
+      Color(_allNotesInQueryResult[i]["noteColor"] ))
   );
   }
 

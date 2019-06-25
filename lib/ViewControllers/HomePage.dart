@@ -25,42 +25,49 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return
-       Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(brightness: Brightness.light,
-        actions: _appBarActions(),
-        elevation: 1,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text("Notes"),
+    return new Scaffold(
+      body: SafeArea(
+        child: _body(),
+        right: true,
+        left:  true,
+        top: true,
+        bottom: true,
       ),
-      body: SafeArea(child:   _body(), right: true, left:  true, top: true, bottom: true,),
-      bottomSheet: _bottomBar(),
+      floatingActionButtonLocation: 
+        FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton.extended (
+        elevation: 4.0,
+        icon: const Icon(Icons.add),
+        label: const Text('Add Note'),
+        onPressed: () => _newNoteTapped(context),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton (
+              onPressed: () {
+                setState(() {
+                  _toggleViewType();
+                });
+              },
+              icon: Icon(
+                  notesViewType == viewType.List ?  Icons.dashboard : Icons.view_stream,
+                  color: CentralStation.fontColor,
+              ),
+            ),
+            // IconButton(icon: Icon(Icons.search), onPressed: () {},),
+          ],
+        ),
+      ),
     );
-
   }
 
   Widget _body() {
     print(notesViewType);
     return Container(child: StaggeredGridPage(notesViewType: notesViewType,));
   }
-
-  Widget _bottomBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        FlatButton(
-          child: Text(
-            "New Note\n",
-            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
-          ),
-          onPressed: () => _newNoteTapped(context),
-        )
-      ],
-    );
-  }
-
 
   void _newNoteTapped(BuildContext ctx) {
     // "-1" id indicates the note is not new
@@ -81,24 +88,5 @@ class _HomePageState extends State<HomePage> {
 
     });
   }
-
-List<Widget> _appBarActions() {
-
-    return [
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: InkWell(
-          child: GestureDetector(
-            onTap: () => _toggleViewType() ,
-            child: Icon(
-              notesViewType == viewType.List ?  Icons.developer_board : Icons.view_headline,
-              color: CentralStation.fontColor,
-            ),
-          ),
-        ),
-      ),
-    ];
-}
-
 
 }

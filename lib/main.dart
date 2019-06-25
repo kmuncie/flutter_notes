@@ -12,14 +12,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Stacked Text',
       theme: ThemeData(
         fontFamily: "Roboto",
         iconTheme: IconThemeData(color: Colors.black),
         primaryTextTheme: TextTheme(
           title: TextStyle(color: Colors.black),
         ),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       home: HomePage(),
 

@@ -18,7 +18,7 @@ class NotePage extends StatefulWidget {
 class _NotePageState extends State<NotePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  var note_color;
+  var noteColor;
   bool _isNewNote = false;
   final _titleFocus = FocusNode();
   final _contentFocus = FocusNode();
@@ -41,8 +41,8 @@ class _NotePageState extends State<NotePage> {
     _editableNote = widget.noteInEditing;
     _titleController.text = _editableNote.title;
     _contentController.text = _editableNote.content;
-    note_color = _editableNote.note_color;
-    _lastEditedForUndo = widget.noteInEditing.date_last_edited;
+    noteColor = _editableNote.noteColor;
+    _lastEditedForUndo = widget.noteInEditing.dateLastEdited;
 
     _titleFrominitial = widget.noteInEditing.title;
     _contentFromInitial = widget.noteInEditing.content;
@@ -75,7 +75,7 @@ class _NotePageState extends State<NotePage> {
           ),
           actions: _archiveAction(context),
           elevation: 1,
-          backgroundColor: note_color,
+          backgroundColor: noteColor,
           title: _pageTitle(),
         ),
         body: _body(context),
@@ -88,7 +88,7 @@ class _NotePageState extends State<NotePage> {
     return
 
       Container(
-      color: note_color,
+      color: noteColor,
       padding: EdgeInsets.only(left: 16, right: 16, top: 12),
       child:
 
@@ -210,10 +210,10 @@ class _NotePageState extends State<NotePage> {
         context: context,
         builder: (BuildContext ctx) {
           return MoreOptionsSheet(
-            color: note_color,
+            color: noteColor,
             callBackColorTapped: _changeColor,
             callBackOptionTapped: bottomSheetOptionTappedHandler,
-            date_last_edited: _editableNote.date_last_edited,
+            dateLastEdited: _editableNote.dateLastEdited,
           );
         });
   }
@@ -242,7 +242,7 @@ class _NotePageState extends State<NotePage> {
   void updateNoteObject() {
     _editableNote.content = _contentController.text;
     _editableNote.title = _titleController.text;
-    _editableNote.note_color = note_color;
+    _editableNote.noteColor = noteColor;
     print("new content: ${_editableNote.content}");
     print(widget.noteInEditing);
     print(_editableNote);
@@ -256,8 +256,8 @@ class _NotePageState extends State<NotePage> {
         (_isNewNote)) {
       // No changes to the note
       // Change last edit time only if the content of the note is mutated in compare to the note which the page was called with.
-      _editableNote.date_last_edited = DateTime.now();
-      print("Updating date_last_edited");
+      _editableNote.dateLastEdited = DateTime.now();
+      print("Updating dateLastdited");
       CentralStation.updateNeeded = true;
     }
   }
@@ -321,8 +321,8 @@ class _NotePageState extends State<NotePage> {
   void _changeColor(Color newColorSelected) {
     print("note color changed");
     setState(() {
-      note_color = newColorSelected;
-      _editableNote.note_color = newColorSelected;
+      noteColor = newColorSelected;
+      _editableNote.noteColor = newColorSelected;
     });
     _persistColorChange();
     CentralStation.updateNeeded = true;
@@ -331,7 +331,7 @@ class _NotePageState extends State<NotePage> {
   void _persistColorChange() {
     if (_editableNote.id != -1) {
       var noteDB = NotesDBHandler();
-      _editableNote.note_color = note_color;
+      _editableNote.noteColor = noteColor;
       noteDB.insertNote(_editableNote, false);
     }
   }
@@ -384,7 +384,7 @@ class _NotePageState extends State<NotePage> {
   void _archiveThisNote(BuildContext context) {
     Navigator.of(context).pop();
     // set archived flag to true and send the entire note object in the database to be updated
-    _editableNote.is_archived = 1;
+    _editableNote.isArchived = 1;
     var noteDB = NotesDBHandler();
     noteDB.archiveNote(_editableNote);
     // update will be required to remove the archived note from the staggered view
@@ -403,12 +403,12 @@ class _NotePageState extends State<NotePage> {
         _editableNote.content,
         DateTime.now(),
         DateTime.now(),
-        _editableNote.note_color) ;
+        _editableNote.noteColor) ;
 
 
     var status = noteDB.copyNote(copy);
-    status.then((query_success){
-      if (query_success){
+    status.then((querySuccess){
+      if (querySuccess){
         CentralStation.updateNeeded = true;
         Navigator.of(_globalKey.currentContext).pop();
       }
@@ -420,6 +420,6 @@ class _NotePageState extends State<NotePage> {
   void _undo() {
     _titleController.text = _titleFrominitial;// widget.noteInEditing.title;
     _contentController.text = _contentFromInitial;// widget.noteInEditing.content;
-    _editableNote.date_last_edited = _lastEditedForUndo;// widget.noteInEditing.date_last_edited;
+    _editableNote.dateLastEdited = _lastEditedForUndo;// widget.noteInEditing.dateLastEdited;
   }
 }
